@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lookbook Personal - Estilo Rocker Chic</title>
+    
+    <!-- Fuentes: Una Serif elegante para títulos y una Sans-Serif limpia para textos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Paleta de Colores Invierno Profundo */
+            --bg-color: #121212; /* Negro profundo */
+            --text-color: #F0F0F0; /* Blanco casi puro */
+            --accent-color: #800020; /* Rojo Vino / Burdeos */
+            --secondary-accent: #2C3E50; /* Azul Medianoche */
+            --silver: #C0C0C0; /* Plata */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(to bottom, #000000, var(--bg-color));
+            border-bottom: 1px solid #333;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            text-transform: uppercase;
+        }
+
+        h1 span {
+            color: var(--accent-color);
+            font-style: italic;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--silver);
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        /* Grid de Estilos */
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .card {
+            background-color: #1E1E1E;
+            border: 1px solid #333;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            background-color: #2a2a2a; /* Placeholder color */
+            filter: grayscale(20%); /* Toque edgy */
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #ccc;
+        }
+
+        /* Paleta de Colores Visual */
+        .palette-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .color-swatch {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            position: relative;
+            transition: transform 0.2s;
+        }
+        
+        .color-swatch:hover {
+            transform: scale(1.1);
+            z-index: 2;
+        }
+
+        .color-name {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            white-space: nowrap;
+            color: #aaa;
+        }
+
+        /* Estilos Específicos de Color */
+        .swatch-black { background-color: #000000; border: 1px solid #333; }
+        .swatch-white { background-color: #FFFFFF; }
+        .swatch-wine { background-color: #800020; }
+        .swatch-emerald { background-color: #005e49; } /* Verde botella */
+        .swatch-navy { background-color: #000080; }
+        .swatch-plum { background-color: #45183d; } /* Violeta oscuro */
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background-color: #000;
+            color: #555;
+            font-size: 0.9rem;
+            border-top: 1px solid #333;
+        }
+
+        /* Botón Flotante (Opcional) */
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 25px;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Lookbook <span>Personal</span></h1>
+        <div class="subtitle">Invierno Profundo | Rocker Chic | Edgy</div>
+    </header>
+
+    <div class="container">
+
+        <!-- Sección 1: Análisis -->
+        <section>
+            <h2 class="section-title">Tu Perfil de Estilo</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto; font-size: 1.1rem;">
+                Tu belleza natural se define por el contraste y la intensidad. Eres una <strong>Invierno Profundo</strong> con una vibra <em>Rockera Chic</em> natural. Te favorecen los colores oscuros, saturados y fríos que acompañan la fuerza de tus facciones y tu estilo personal.
+            </p>
+        </section>
+
+        <!-- Sección 2: Paleta de Colores -->
+        <section>
+            <h2 class="section-title">Tu Paleta de Poder</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Tonos joya profundos, neutros de alto contraste y acentos dramáticos.</p>
+            <div class="palette-container">
+                <div class="color-swatch swatch-black"><span class="color-name">Negro Puro</span></div>
+                <div class="color-swatch swatch-white"><span class="color-name">Blanco Hielo</span></div>
+                <div class="color-swatch swatch-wine"><span class="color-name">Rojo Vino</span></div>
+                <div class="color-swatch swatch-emerald"><span class="color-name">Esmeralda</span></div>
+                <div class="color-swatch swatch-navy"><span class="color-name">Azul Real</span></div>
+                <div class="color-swatch swatch-plum"><span class="color-name">Ciruela</span></div>
+            </div>
+        </section>
+
+        <!-- Sección 3: Cabello -->
+        <section>
+            <h2 class="section-title">Cabello: Profundidad & Actitud</h2>
+            <div class="style-grid">
+                <div class="card">
+                    <!-- Placeholder para foto de pelo mullet/shag oscuro -->
+                    <img src="https://placehold.co/400x500/1a1a1a/F0F0F0?text=Mullet+Oscuro" alt="Corte Mullet Oscuro" class="card-img">
+                    <h3>El Mullet Edgy</h3>
+                    <p>Tu corte actual es perfecto. Mantenlo en tonos profundos como Chocolate Negro o Violín Oscuro para maximizar el brillo y el carácter.</p>
+                </div>
+                <div class="card">
+                    <!-- Placeholder para foto de pelo liso con flequillo -->
+                    <img src="https://placehold.co/400x500/1a1a1a/F0F0F0?text=Flequillo+Recto" alt="Flequillo Recto" class="card-img">
+                    <h3>Flequillo Gráfico</h3>
+                    <p>Un flequillo recto o despuntado enmarca tus ojos oscuros y añade ese toque de misterio rockero.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 4: Maquillaje -->
+        <section>
+            <h2 class="section-title">Maquillaje: Sofisticación Nocturna</h2>
+            <div class="style-grid">
+                <div class="card">
+                    <!-- Placeholder para foto de labios vino -->
+                    <img src="https://placehold.co/400x500/500000/F0F0F0?text=Labios+Vino" alt="Labios Vino" class="card-img">
+                    <h3>Labios Baya</h3>
+                    <p>Rojo vino, burdeos o cereza oscuro. Son tus mejores aliados para un look elegante y poderoso.</p>
+                </div>
+                <div class="card">
+                    <!-- Placeholder para foto de ojos ahumados -->
+                    <img src="https://placehold.co/400x500/333333/F0F0F0?text=Ojos+Ahumados" alt="Smokey Eye" class="card-img">
+                    <h3>Mirada Definida</h3>
+                    <p>Delineado negro difuminado ("lived-in") o sombras en tonos topo y gris pizarra para una mirada intensa pero no pesada.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 5: Outfit -->
+        <section>
+            <h2 class="section-title">Estilo: Rocker Chic</h2>
+            <div class="style-grid">
+                <div class="card">
+                    <!-- Placeholder para outfit de cuero -->
+                    <img src="https://placehold.co/400x500/000000/F0F0F0?text=Cuero+%26+Negro" alt="Outfit Cuero" class="card-img">
+                    <h3>Texturas Ricas</h3>
+                    <p>El negro no tiene por qué ser aburrido. Mezcla cuero, terciopelo y encaje para dar dimensión a tus looks monocromáticos.</p>
+                </div>
+                <div class="card">
+                    <!-- Placeholder para outfit con color acento -->
+                    <img src="https://placehold.co/400x500/000040/F0F0F0?text=Acento+de+Color" alt="Outfit Acento" class="card-img">
+                    <h3>Acentos Joya</h3>
+                    <p>Rompe el negro con una pieza en Verde Esmeralda o Azul Real. Un blazer, una bufanda o unos zapatos de impacto.</p>
+                </div>
+            </div>
+        </section>
+
+        <div style="text-align: center;">
+            <a href="#" class="btn">Guardar Inspiración</a>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Diseñado para tu versión más auténtica.</p>
+    </footer>
+
+</body>
+</html>
