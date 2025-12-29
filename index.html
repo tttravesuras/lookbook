@@ -3,190 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moodboard: Rocker Chic - Invierno Profundo</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+    <title>Pizarra Interactiva de Dibujo</title>
     <style>
-        :root {
-            --bg-color: #0a0a0a;
-            --accent-color: #800020; /* Vino */
-            --text-color: #e0e0e0;
-        }
-        
+        /* Estilos generales para centrar y dar formato */
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Montserrat', sans-serif;
             margin: 0;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-top: 20px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            overflow: hidden; /* Evita el scroll mientras dibujas */
         }
 
         h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-style: italic;
-            margin: 0;
-            color: #fff;
+            color: #333;
+            margin: 10px 0;
+            font-size: 1.5rem;
         }
 
-        p.subtitle {
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #888;
-            margin-top: 10px;
-        }
-
-        /* Masonry Layout (Muro de imágenes tipo Pinterest) */
-        .gallery {
-            column-count: 1; /* Móvil por defecto */
-            column-gap: 15px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        @media (min-width: 600px) {
-            .gallery { column-count: 2; }
-        }
-        @media (min-width: 900px) {
-            .gallery { column-count: 3; }
-        }
-
-        .gallery-item {
-            break-inside: avoid; /* Evita que las imágenes se corten entre columnas */
-            margin-bottom: 15px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 4px;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.02);
-        }
-
-        .gallery-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: brightness(0.9) contrast(1.1); /* Filtro "edgy" */
-        }
-
-        .label {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 5px 10px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            backdrop-filter: blur(2px);
-        }
-
-        /* Sección de Paleta */
-        .palette-strip {
+        /* Contenedor de la barra de herramientas */
+        .toolbar {
             display: flex;
-            height: 60px;
-            margin-bottom: 40px;
-            border: 1px solid #333;
+            gap: 15px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        .color-block {
-            flex: 1;
+
+        /* Estilos para los controles */
+        .control-group {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.7);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            gap: 8px;
         }
 
+        label {
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input[type="color"] {
+            border: none;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            background: none;
+        }
+
+        input[type="range"] {
+            cursor: pointer;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button.clear-btn {
+            background-color: #dc3545;
+        }
+
+        button.clear-btn:hover {
+            background-color: #a71d2a;
+        }
+
+        /* Estilos del Canvas */
+        #drawingCanvas {
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            cursor: crosshair;
+            touch-action: none; /* Crucial para evitar scroll en móviles al dibujar */
+        }
+
+        /* Ajustes para móviles */
+        @media (max-width: 600px) {
+            .toolbar {
+                border-radius: 15px;
+                padding: 10px;
+                gap: 10px;
+                width: 90%;
+            }
+            h1 {
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Moodboard</h1>
-        <p class="subtitle">Estética Rocker Chic | Invierno Profundo</p>
-    </header>
+    <h1>🎨 Pizarra Interactiva</h1>
 
-    <!-- Paleta de Colores -->
-    <div class="palette-strip" style="max-width: 800px; margin: 0 auto 40px;">
-        <div class="color-block" style="background-color: #000000;">Negro</div>
-        <div class="color-block" style="background-color: #ffffff; color: #333; text-shadow: none;">Blanco</div>
-        <div class="color-block" style="background-color: #800020;">Vino</div>
-        <div class="color-block" style="background-color: #004225;">Verde Botella</div>
-        <div class="color-block" style="background-color: #000080;">Azul Real</div>
-        <div class="color-block" style="background-color: #C0C0C0; color: #333; text-shadow: none;">Plata</div>
+    <div class="toolbar">
+        <div class="control-group">
+            <label for="colorPicker">Color:</label>
+            <input type="color" id="colorPicker" value="#000000">
+        </div>
+
+        <div class="control-group">
+            <label for="lineWidth">Grosor:</label>
+            <input type="range" id="lineWidth" min="1" max="50" value="5">
+        </div>
+
+        <div class="control-group">
+            <button id="saveBtn">Guardar</button>
+            <button id="clearBtn" class="clear-btn">Limpiar</button>
+        </div>
     </div>
 
-    <div class="gallery">
-        
-        <!-- Imagen 1: Estilo de Cabello -->
-        <div class="gallery-item">
-            <!-- Mullet moderno y oscuro -->
-            <img src="https://images.unsplash.com/photo-1620331317329-e990b9280e0a?q=80&w=600&auto=format&fit=crop" alt="Corte Mullet Moderno">
-            <div class="label">Cabello: Mullet Oscuro</div>
-        </div>
+    <canvas id="drawingCanvas"></canvas>
 
-        <!-- Imagen 2: Maquillaje Labios -->
-        <div class="gallery-item">
-            <!-- Labios oscuros tono vino -->
-            <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?q=80&w=600&auto=format&fit=crop" alt="Labios Vino">
-            <div class="label">Makeup: Labios Vino</div>
-        </div>
+    <script>
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        const colorPicker = document.getElementById('colorPicker');
+        const lineWidthRange = document.getElementById('lineWidth');
+        const clearBtn = document.getElementById('clearBtn');
+        const saveBtn = document.getElementById('saveBtn');
 
-        <!-- Imagen 3: Outfit Rocker -->
-        <div class="gallery-item">
-            <!-- Chamarra de cuero -->
-            <img src="https://images.unsplash.com/photo-1550614000-4b9519e02b39?q=80&w=600&auto=format&fit=crop" alt="Chamarra de Cuero">
-            <div class="label">Estilo: Cuero Negro</div>
-        </div>
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
 
-        <!-- Imagen 4: Textura / Color -->
-        <div class="gallery-item">
-            <!-- Terciopelo verde o esmeralda -->
-            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=600&auto=format&fit=crop" alt="Textura Esmeralda">
-            <div class="label">Color: Verde Profundo</div>
-        </div>
+        // Función para ajustar el tamaño del canvas al contenedor
+        function resizeCanvas() {
+            // Guardar el contenido actual si se desea (opcional, aquí se limpia al redimensionar)
+            // Para una app real, podrías querer guardar el estado en una imagen temporal.
+            canvas.width = window.innerWidth * 0.9;
+            canvas.height = window.innerHeight * 0.75;
+            
+            // Configuración inicial del contexto después del resize
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.lineWidth = lineWidthRange.value;
+            ctx.strokeStyle = colorPicker.value;
+        }
 
-        <!-- Imagen 5: Actitud / Ojos -->
-        <div class="gallery-item">
-            <!-- Delineado intenso -->
-            <img src="https://images.unsplash.com/photo-1596704017254-9b1b184d3716?q=80&w=600&auto=format&fit=crop" alt="Delineado Gráfico">
-            <div class="label">Makeup: Ojos Intensos</div>
-        </div>
+        // Inicializar tamaño
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-        <!-- Imagen 6: Outfit Elegante -->
-        <div class="gallery-item">
-            <!-- Vestido negro o blazer -->
-            <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=600&auto=format&fit=crop" alt="Estilo Elegante Oscuro">
-            <div class="label">Estilo: Minimal Dark</div>
-        </div>
+        // --- Funciones de Dibujo ---
 
-        <!-- Imagen 7: Joyería -->
-        <div class="gallery-item">
-            <!-- Accesorios Plateados -->
-            <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop" alt="Joyería Plata">
-            <div class="label">Metal: Plata</div>
-        </div>
+        function startDrawing(e) {
+            isDrawing = true;
+            [lastX, lastY] = getCoordinates(e);
+        }
 
-        <!-- Imagen 8: Calzado -->
-        <div class="gallery-item">
-             <!-- Botas negras -->
-            <img src="https://images.unsplash.com/photo-1608256246200-53e635b5b65f?q=80&w=600&auto=format&fit=crop" alt="Botas Negras">
-            <div class="label">Calzado: Botas</div>
-        </div>
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            e.preventDefault(); // Evita scroll en touch
 
-    </div>
+            const [currentX, currentY] = getCoordinates(e);
 
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(currentX, currentY);
+            ctx.stroke();
+
+            [lastX, lastY] = [currentX, currentY];
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            ctx.beginPath(); // Resetea el path para no conectar líneas separadas
+        }
+
+        // --- Utilidad para obtener coordenadas (Mouse o Touch) ---
+        function getCoordinates(e) {
+            let x, y;
+            if (e.type.includes('touch')) {
+                const touch = e.touches[0];
+                const rect = canvas.getBoundingClientRect();
+                x = touch.clientX - rect.left;
+                y = touch.clientY - rect.top;
+            } else {
+                x = e.offsetX;
+                y = e.offsetY;
+            }
+            return [x, y];
+        }
+
+        // --- Event Listeners (Mouse) ---
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        // --- Event Listeners (Touch / Móvil) ---
+        canvas.addEventListener('touchstart', startDrawing, { passive: false });
+        canvas.addEventListener('touchmove', draw, { passive: false });
+        canvas.addEventListener('touchend', stopDrawing);
+
+        // --- Controles ---
+
+        // Cambiar color
+        colorPicker.addEventListener('change', (e) => {
+            ctx.strokeStyle = e.target.value;
+        });
+
+        // Cambiar grosor
+        lineWidthRange.addEventListener('input', (e) => {
+            ctx.lineWidth = e.target.value;
+        });
+
+        // Limpiar lienzo
+        clearBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+
+        // Guardar imagen
+        saveBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'mi-dibujo.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+
+    </script>
 </body>
 </html>
