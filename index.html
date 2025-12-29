@@ -3,193 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizarra Interactiva de Dibujo</title>
+    <title>Pizarra Interactiva - Efecto Plata 3D</title>
     <style>
-        /* Estilos generales para centrar y dar formato */
         body {
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #f0f2f5;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a; /* Fondo oscuro para resaltar la plata */
+            font-family: 'Segoe UI', sans-serif;
             height: 100vh;
-            overflow: hidden; /* Evita el scroll mientras dibujas */
+            overflow: hidden;
         }
 
         h1 {
-            color: #333;
-            margin: 10px 0;
-            font-size: 1.5rem;
+            color: #e0e0e0;
+            margin: 15px 0;
+            font-weight: 300;
+            letter-spacing: 2px;
         }
 
-        /* Contenedor de la barra de herramientas */
         .toolbar {
             display: flex;
             gap: 15px;
-            background: white;
+            background: #333;
             padding: 10px 20px;
             border-radius: 50px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
             align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        /* Estilos para los controles */
-        .control-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
         label {
+            color: #ccc;
             font-size: 0.9rem;
-            color: #555;
-            font-weight: 600;
         }
 
-        input[type="color"] {
-            border: none;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            background: none;
-        }
-
+        /* Estilo personalizado para el rango */
         input[type="range"] {
+            -webkit-appearance: none;
+            background: #555;
+            height: 4px;
+            border-radius: 2px;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #C0C0C0;
+            border-radius: 50%;
             cursor: pointer;
         }
 
         button {
-            background-color: #007bff;
-            color: white;
-            border: none;
+            background-color: #444;
+            color: #fff;
+            border: 1px solid #555;
             padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.2s;
+            transition: all 0.3s;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #C0C0C0;
+            color: #000;
         }
 
         button.clear-btn {
-            background-color: #dc3545;
+            border-color: #ff4444;
+            color: #ff4444;
         }
-
         button.clear-btn:hover {
-            background-color: #a71d2a;
+            background-color: #ff4444;
+            color: white;
         }
 
-        /* Estilos del Canvas */
         #drawingCanvas {
-            background-color: white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            background-color: #000; /* Lienzo negro */
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+            border-radius: 4px;
             cursor: crosshair;
-            touch-action: none; /* Crucial para evitar scroll en móviles al dibujar */
+            touch-action: none;
         }
 
-        /* Ajustes para móviles */
-        @media (max-width: 600px) {
-            .toolbar {
-                border-radius: 15px;
-                padding: 10px;
-                gap: 10px;
-                width: 90%;
-            }
-            h1 {
-                font-size: 1.2rem;
-            }
+        .note {
+            color: #666;
+            font-size: 0.8rem;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <h1>🎨 Pizarra Interactiva</h1>
+    <h1>✨ Trazo de Plata</h1>
 
     <div class="toolbar">
-        <div class="control-group">
-            <label for="colorPicker">Color:</label>
-            <input type="color" id="colorPicker" value="#000000">
-        </div>
-
-        <div class="control-group">
-            <label for="lineWidth">Grosor:</label>
-            <input type="range" id="lineWidth" min="1" max="50" value="5">
-        </div>
-
-        <div class="control-group">
-            <button id="saveBtn">Guardar</button>
-            <button id="clearBtn" class="clear-btn">Limpiar</button>
-        </div>
+        <!-- Eliminamos el selector de color libre para forzar el efecto plata -->
+        <label>Grosor:</label>
+        <input type="range" id="lineWidth" min="2" max="30" value="8">
+        
+        <button id="saveBtn">Guardar</button>
+        <button id="clearBtn" class="clear-btn">Borrar</button>
     </div>
 
     <canvas id="drawingCanvas"></canvas>
+    <div class="note">Dibuja para ver el efecto de metal líquido</div>
 
     <script>
         const canvas = document.getElementById('drawingCanvas');
         const ctx = canvas.getContext('2d');
-        const colorPicker = document.getElementById('colorPicker');
         const lineWidthRange = document.getElementById('lineWidth');
         const clearBtn = document.getElementById('clearBtn');
         const saveBtn = document.getElementById('saveBtn');
 
         let isDrawing = false;
-        let lastX = 0;
-        let lastY = 0;
+        // Almacenamos los puntos del trazo actual para "repasarlo" al final
+        let currentPath = []; 
 
-        // Función para ajustar el tamaño del canvas al contenedor
         function resizeCanvas() {
-            // Guardar el contenido actual si se desea (opcional, aquí se limpia al redimensionar)
-            // Para una app real, podrías querer guardar el estado en una imagen temporal.
             canvas.width = window.innerWidth * 0.9;
-            canvas.height = window.innerHeight * 0.75;
-            
-            // Configuración inicial del contexto después del resize
-            ctx.lineJoin = 'round';
-            ctx.lineCap = 'round';
-            ctx.lineWidth = lineWidthRange.value;
-            ctx.strokeStyle = colorPicker.value;
+            canvas.height = window.innerHeight * 0.7;
+            // Fondo negro explícito para que se guarde bien la imagen
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
 
-        // Inicializar tamaño
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        // --- Funciones de Dibujo ---
+        // --- Configuración del Estilo Metálico ---
+        function setSilverStyle(isFinal) {
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.lineWidth = lineWidthRange.value;
+
+            if (isFinal) {
+                // Efecto 3D / Volumen al soltar
+                // Creamos un "brillo" interior y una sombra exterior
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = "rgba(255, 255, 255, 0.8)"; // Resplandor blanco
+                ctx.strokeStyle = "#E0E0E0"; // Plata muy clara
+            } else {
+                // Trazo simple mientras dibujas (rápido)
+                ctx.shadowBlur = 0;
+                ctx.strokeStyle = "#555555"; // Gris oscuro temporal
+            }
+        }
+
+        // --- Lógica de Dibujo ---
 
         function startDrawing(e) {
             isDrawing = true;
-            [lastX, lastY] = getCoordinates(e);
+            currentPath = []; // Reiniciar el camino
+            const point = getCoordinates(e);
+            currentPath.push(point); // Guardar primer punto
+            
+            ctx.beginPath();
+            ctx.moveTo(point.x, point.y);
+            
+            // Configurar estilo "borrador" rápido
+            setSilverStyle(false);
         }
 
         function draw(e) {
             if (!isDrawing) return;
-            
-            e.preventDefault(); // Evita scroll en touch
+            e.preventDefault();
 
-            const [currentX, currentY] = getCoordinates(e);
+            const point = getCoordinates(e);
+            currentPath.push(point); // Guardar puntos
 
-            ctx.beginPath();
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(currentX, currentY);
+            ctx.lineTo(point.x, point.y);
             ctx.stroke();
-
-            [lastX, lastY] = [currentX, currentY];
         }
 
         function stopDrawing() {
+            if (!isDrawing) return;
             isDrawing = false;
-            ctx.beginPath(); // Resetea el path para no conectar líneas separadas
+            ctx.closePath();
+
+            // --- AQUÍ OCURRE LA MAGIA ---
+            // Al soltar, redibujamos el camino guardado con el efecto 3D
+            if (currentPath.length > 0) {
+                applyMetalEffect();
+            }
         }
 
-        // --- Utilidad para obtener coordenadas (Mouse o Touch) ---
+        function applyMetalEffect() {
+            // 1. Capa de "Sombra/Base" (Oscura y ancha)
+            ctx.beginPath();
+            ctx.moveTo(currentPath[0].x, currentPath[0].y);
+            for (let i = 1; i < currentPath.length; i++) {
+                ctx.lineTo(currentPath[i].x, currentPath[i].y);
+            }
+            
+            ctx.lineWidth = parseInt(lineWidthRange.value) + 2;
+            ctx.strokeStyle = "#444"; // Gris oscuro base
+            ctx.shadowBlur = 5;
+            ctx.shadowColor = "black";
+            ctx.stroke();
+
+            // 2. Capa de "Brillo Central" (Clara y fina)
+            // Esto simula el reflejo especular del metal (el centro blanco)
+            ctx.beginPath(); // Reiniciar path para no arrastrar estilos
+            ctx.moveTo(currentPath[0].x, currentPath[0].y);
+            for (let i = 1; i < currentPath.length; i++) {
+                ctx.lineTo(currentPath[i].x, currentPath[i].y);
+            }
+
+            ctx.lineWidth = parseInt(lineWidthRange.value) - 2; // Un poco más fino
+            // Gradiente para simular metal (Opcional, aquí usamos color sólido con shadow)
+            ctx.strokeStyle = "#FFFFFF"; 
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = "#A0A0A0"; // Resplandor plateado
+            ctx.stroke();
+        }
+
         function getCoordinates(e) {
             let x, y;
             if (e.type.includes('touch')) {
@@ -201,41 +231,30 @@
                 x = e.offsetX;
                 y = e.offsetY;
             }
-            return [x, y];
+            return { x, y };
         }
 
-        // --- Event Listeners (Mouse) ---
+        // --- Event Listeners ---
         canvas.addEventListener('mousedown', startDrawing);
         canvas.addEventListener('mousemove', draw);
         canvas.addEventListener('mouseup', stopDrawing);
         canvas.addEventListener('mouseout', stopDrawing);
 
-        // --- Event Listeners (Touch / Móvil) ---
         canvas.addEventListener('touchstart', startDrawing, { passive: false });
         canvas.addEventListener('touchmove', draw, { passive: false });
         canvas.addEventListener('touchend', stopDrawing);
 
         // --- Controles ---
-
-        // Cambiar color
-        colorPicker.addEventListener('change', (e) => {
-            ctx.strokeStyle = e.target.value;
-        });
-
-        // Cambiar grosor
-        lineWidthRange.addEventListener('input', (e) => {
-            ctx.lineWidth = e.target.value;
-        });
-
-        // Limpiar lienzo
         clearBtn.addEventListener('click', () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Restaurar fondo negro
+            ctx.fillStyle = "#000000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
         });
 
-        // Guardar imagen
         saveBtn.addEventListener('click', () => {
             const link = document.createElement('a');
-            link.download = 'mi-dibujo.png';
+            link.download = 'trazo-plata.png';
             link.href = canvas.toDataURL();
             link.click();
         });
